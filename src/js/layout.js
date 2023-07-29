@@ -6,6 +6,8 @@ import { Home } from "./views/home";
 import { Demo } from "./views/demo";
 import { Single } from "./views/single";
 import { Characters } from "./views/Characters.jsx";
+import { StarShips } from "./views/StarShips.jsx";
+import { Planets } from "./views/Planets.jsx";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
