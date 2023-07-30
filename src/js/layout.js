@@ -3,8 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 
 import { Home } from "./views/home";
-import { Demo } from "./views/demo";
-import { Single } from "./views/single";
 import { Characters } from "./views/Characters.jsx";
 import { StarShips } from "./views/StarShips.jsx";
 import { Planets } from "./views/Planets.jsx";
@@ -12,6 +10,9 @@ import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+import { ViewCharacter } from "./views/ViewCharacter.jsx";
+import { ViewPlanet } from "./views/ViewPlanet.jsx";
+import { ViewShip } from "./views/ViewShip.jsx";
 
 //create your first component
 const Layout = () => {
@@ -26,10 +27,12 @@ const Layout = () => {
 					<Navbar />
 					<Routes>
 						<Route path="/" element={<Home />} />
-						<Route path="/people/*" element={<Characters />} />
-						<Route path="/demo" element={<Demo />} />
-						<Route path="/single/:theid" element={<Single />} />
-						{/* <Route path="*" element={<h1>Not found!</h1>} /> */}
+						<Route path="/characters/" element={<Characters />} />
+						<Route path="/characters/:peopleId" element={<ViewCharacter />} />
+						<Route path="/starships/" element={<StarShips />} />
+						<Route path="/starships/:starshipId" element={<ViewPlanet />} />
+						<Route path="/planets/" element={<Planets />} />
+						<Route path="/planets/:planetId" element={<ViewShip />} />
 					</Routes>
 					<Footer />
 				</ScrollToTop>
