@@ -6,9 +6,29 @@ import { Link } from "react-router-dom";
 
 export const Planets = () => {
     const {store, actions} = useContext(Context);
-    const [planets, setPlanets] = useState([JSON.parse(localStorage.getItem("worldsLocal"))]);
+    const [planets, setPlanets] = useState([]);
     
+    useEffect(() => {
     
+        // Obtiene los datos del localStorage y los establece en el estado 
+            
+        const worldsLocalData = JSON.parse(localStorage.getItem("worldsLocal"));
+        setPlanets(worldsLocalData.results);
+        }, []);
+
+        const fetchPlanetDetails = async (url) => {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+            
+                const dataWorlds = await response.json();
+                console.log("Planet details:", dataWorlds);
+            } catch (error) {
+                console.error("Error fetching planet details:", error);
+        }
+    };
     return (
         <>
             <div className="back">
@@ -20,11 +40,14 @@ export const Planets = () => {
                                 <div className="col" key={uid}>
                                     <div className="p-3">
                                         <div className="card" >
-                                            <Link to={`/planets/${planet.uid}`}>
                                                 <img src='https://starwars-visualguide.com/assets/img/placeholder.jpg' className="card-img-top" alt="..." />
-                                            </Link>
                                             <div className="card-body">
-                                                <p className="card-text">{planet.results[uid].name}.</p>
+                                                <p className="card-text">{planet.name}.</p>
+                                                <Link to={`/planets/${planet.uid}`}>
+                                                    <button onClick={() => fetchPlanetDetails(planet.url)}>
+                                                        Get Details
+                                                    </button>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>

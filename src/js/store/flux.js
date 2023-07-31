@@ -27,6 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const url = host + '/people/';
 					const request = {
 						method: "GET",
+						reddiret: "follow"
 					}
 					const response = await fetch(url, request);
 					console.log(response);
@@ -65,8 +66,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const response = await fetch(url, request);
 					console.log(response);
 					if (response.ok) {
-						const dataWorld = await response.json();
-						localStorage.setItem("worldsLocal", JSON.stringify(dataWorld));
+						const dataWorlds = await response.json();
+						localStorage.setItem("worldsLocal", JSON.stringify(dataWorlds));
 					} else {
 						console.log("Error: ", response.status, response.statusText);
 					}
