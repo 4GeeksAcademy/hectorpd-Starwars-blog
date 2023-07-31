@@ -18,7 +18,7 @@ export const Navbar = () => {
 			<Link to="/Planets">
 				<span className="navbar-brand mb-0 h1" style={{color:'rgb(157,138,90)'}}>Planets</span>
 			</Link>
-			<div className="ml-auto">
+			<div className="ml-auto" style={{marginRight: '40px'}}>
 					<button className="btn btn-primary">Favorites</button>
 			</div>
 		</nav>
