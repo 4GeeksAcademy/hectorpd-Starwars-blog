@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { BtnFavorites } from "./BtnFavorites.jsx";
 
 export const Navbar = () => {
 	return (
@@ -19,7 +20,7 @@ export const Navbar = () => {
 				<span className="navbar-brand mb-0 h1" style={{color:'rgb(157,138,90)'}}>Planets</span>
 			</Link>
 			<div className="ml-auto" style={{marginRight: '40px'}}>
-					<button className="btn btn-primary">Favorites</button>
+					<BtnFavorites />
 			</div>
 		</nav>
 	);

@@ -1,20 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-					//Se define aqui todas las variables a utilizar, las cuales se van a poder modificar mediante los getactions
-					
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			favorites: []
 		},
 		actions: {
 
@@ -27,7 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const url = host + '/people/';
 					const request = {
 						method: "GET",
-						reddiret: "follow"
+						rediret: "follow"
 					}
 					const response = await fetch(url, request);
 					console.log(response);
@@ -45,6 +32,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const url = host + '/starships/';
 					const request = {
 						method: "GET",
+						rediret: "follow"
 					}
 					const response = await fetch(url, request);
 					console.log(response);
@@ -62,6 +50,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const url = host + '/planets/';
 					const request = {
 						method: "GET",
+						rediret: "follow"
 					}
 					const response = await fetch(url, request);
 					console.log(response);
@@ -73,6 +62,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				};
 			},
+
+			addFavorites: (name) => {
+				setStore({favorites: [...getStore().favorites, name]})
+			},
+			removeFavorites: (id) => {
+				setStore({favorites: getStore().favorites.filter((item, i) => {
+					return  i != id;
+				})})
+			}
 		}
 	};
 };

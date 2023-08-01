@@ -26,8 +26,10 @@ export const Characters = () => {
             console.log("Character details:", dataPeople);
         } catch (error) {
             console.error("Error fetching character details:", error);
-    }
+        }
     };
+    
+    const handleOnErrorImg = (e) => {e.target.src = "https://starwars-visualguide.com/assets/img/placeholder.jpg"};
 
     return (
         <>
@@ -40,14 +42,19 @@ export const Characters = () => {
                                 <div className="col" key={uid}>
                                     <div className="p-3">
                                         <div className="card" >
-                                                <img src='https://starwars-visualguide.com/assets/img/characters/1.jpg' className="card-img-top" alt="..." />
+                                                <img alt="" src={`https://starwars-visualguide.com/assets/img/characters/${uid+1}.jpg`} onError={handleOnErrorImg} />
                                             <div className="card-body">
                                                 <p className="card-text">{character.name}.</p>
-                                                <Link to={`/characters/${character.uid}`}>
-                                                    <button onClick={() => fetchCharacterDetails(character.url)}>
-                                                        Get Details
+                                                <div className="footerCharacter"> 
+                                                    <Link to={`/characters/${character.uid}`}>
+                                                        <button className="btn btn-secondary" onClick={() => fetchCharacterDetails(character.url)}>
+                                                            Get Details
+                                                        </button>
+                                                    </Link>
+                                                    <button className="btn btn-danger" onClick={() => {actions.addFavorites(character.name)}} type="button">
+                                                        <i className="fas fa-heart"></i>
                                                     </button>
-                                                </Link>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

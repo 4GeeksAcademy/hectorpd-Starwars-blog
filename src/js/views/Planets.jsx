@@ -29,6 +29,9 @@ export const Planets = () => {
                 console.error("Error fetching planet details:", error);
         }
     };
+
+    const handleOnErrorImg = (e) => {e.target.src = "https://starwars-visualguide.com/assets/img/placeholder.jpg"};
+
     return (
         <>
             <div className="back">
@@ -40,14 +43,19 @@ export const Planets = () => {
                                 <div className="col" key={uid}>
                                     <div className="p-3">
                                         <div className="card" >
-                                                <img src='https://starwars-visualguide.com/assets/img/placeholder.jpg' className="card-img-top" alt="..." />
+                                                <img src={`https://starwars-visualguide.com/assets/img/planetss/${uid+1}.jpg`} onError={handleOnErrorImg} />
                                             <div className="card-body">
                                                 <p className="card-text">{planet.name}.</p>
-                                                <Link to={`/planets/${planet.uid}`}>
-                                                    <button onClick={() => fetchPlanetDetails(planet.url)}>
-                                                        Get Details
+                                                <div className="footerPlanets">
+                                                    <Link to={`/planets/${planet.uid}`}>
+                                                        <button className="btn btn-secondary" onClick={() => fetchPlanetDetails(planet.url)}>
+                                                            Get Details
+                                                        </button>
+                                                    </Link>
+                                                    <button className="btn btn-danger" onClick={() => {actions.addFavorites(planet.name)}} type="button">
+                                                        <i className="fas fa-heart"></i>
                                                     </button>
-                                                </Link>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

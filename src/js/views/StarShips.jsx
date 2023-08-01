@@ -30,11 +30,8 @@ export const StarShips = () => {
             }
         };
 
-    const extractUIDFromURL = (url) => {
-        const parts = url.split("/");
-        return parts[parts.length - 2];
-    };
-    
+    const handleOnErrorImg = (e) => {e.target.src = "https://starwars-visualguide.com/assets/img/placeholder.jpg"};
+
     return (
         <>
             <div className="back">
@@ -46,20 +43,19 @@ export const StarShips = () => {
                                 <div className="col" key={uid}>
                                     <div className="p-3">
                                         <div className="card" >
-                                            <Link to={`/starShips/${starShip.uid}`}>
-                                                <img
-                                                    src={`https://starwars-visualguide.com/assets/img/starships/${extractUIDFromURL(starShip.url)}.jpg`}
-                                                    className="card-img-top"
-                                                    alt="..."
-                                                    />
-                                            </Link>
+                                                <img src={`https://starwars-visualguide.com/assets/img/starships/${uid+5}.jpg`} onError={handleOnErrorImg} />
                                             <div className="card-body">
                                                 <p className="card-text">{starShip.name}.</p>
-                                                <Link to={`/starShips/${starShip.uid}`}>
-                                                    <button onClick={() => fetchShipDetails(starShip.url)}>
-                                                        Get Details
+                                                <div className="footerShips"> 
+                                                    <Link to={`/starShips/${starShip.uid}`}>
+                                                        <button className="btn btn-secondary" onClick={() => fetchShipDetails(starShip.url)}>
+                                                            Get Details
+                                                        </button>
+                                                    </Link>
+                                                    <button className="btn btn-danger" onClick={() => {actions.addFavorites(starShip.name)}} type="button">
+                                                            <i className="fas fa-heart"></i>
                                                     </button>
-                                                </Link>
+                                                </div>    
                                             </div>
                                         </div>
                                     </div>
