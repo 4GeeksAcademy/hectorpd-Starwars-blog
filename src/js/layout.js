@@ -30,9 +30,9 @@ const Layout = () => {
 						<Route path="/characters/" element={<Characters />} />
 						<Route path="/characters/:peopleId" element={<ViewCharacter />} />
 						<Route path="/starships/" element={<StarShips />} />
-						<Route path="/starships/:starShipId" element={<ViewPlanet />} />
+						<Route path="/starships/:starshipId" element={<ViewShip />} />
 						<Route path="/planets/" element={<Planets />} />
-						<Route path="/planets/:planetId" element={<ViewShip />} />
+						<Route path="/planets/:planetId" element={<ViewPlanet />} />
 					</Routes>
 					<Footer />
 				</ScrollToTop>

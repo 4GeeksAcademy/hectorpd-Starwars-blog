@@ -3,24 +3,23 @@ import { useParams } from "react-router-dom";
 
 
 export const ViewPlanet = () => {
-
     const params = useParams();
     const [planet, setPlanet] = useState({});
 
     const fetchPlanetData = async () => {
-        const cachedPlanet= JSON.parse(localStorage.getItem("planetsLocal"));
-        console.log(cachedPlanet);
+        const cachedPlanet= JSON.parse(localStorage.getItem("worldsLocal"));
+        // console.log(cachedPlanet);
         if (cachedPlanet && cachedPlanet[params.planetId]) {
             setPlanet(cachedPlanet[params.planetId]);
         } else {
             const response = await fetch(`https://www.swapi.tech/api/planets/${params.planetId}`);
             if (response.ok) {
                 const data = await response.json();
-                const planetData = data.results.properties;
+                const planetData = data.result.properties;
                 setPlanet(planetData);
-                localStorage.setItem('planetsLocal', JSON.stringify({...cachedPlanet, [params.planetId]:planetData}));
+                localStorage.setItem('worldsLocal', JSON.stringify({...cachedPlanet, [params.planetId]: planetData }));
             } else {
-                console.error("Error fetching data:", response.status, response.statusText);
+                console.error("Error:", response.status, response.statusText);
             }
         }
     };
@@ -34,13 +33,13 @@ export const ViewPlanet = () => {
     
     return (
         <div className="d-flex justify-content-center" style={{background: 'gray' }}>
-            <div className=" mb-3 black text-white bordes" style={{ width: "43%" }}>
+            <div className=" mb-3 mt-3 black text-white bordes" style={{ width: "60%" }}>
                 <div className="row g-0">
                     <div className="col-md-4">
                         <img src={`https://starwars-visualguide.com/assets/img/planets/${params.planetId}.jpg`} 
-                        onError={(e) => {
-                            e.target.src = "https://1.bp.blogspot.com/-KoRhKcCHwBE/Tndslf5GHYI/AAAAAAAAZk4/8Ihcjjwr7Wg/s1600/freebies2deals-star-wars-6-set.jpg";
-                        }} alt={planet.name} style={{ width: "350px" }} />
+                            onError={(e) => {
+                                e.target.src = "./assets/img/placeholder.jpg";
+                            }} alt={planet.name} />
                     </div>
                     <div className="col-md-8">
                         <div className="card-body text-center ms-5 ps-5 mt-3">

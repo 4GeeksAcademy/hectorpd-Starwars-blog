@@ -10,24 +10,10 @@ export const Characters = () => {
     
     useEffect(() => {
     
-        // Obtiene los datos del localStorage y los establece en el estado "characters"
         const peopleLocalData = JSON.parse(localStorage.getItem("peopleLocal"));
         setCharacters(peopleLocalData.results);
         }, []);
 
-    const fetchCharacterDetails = async (url) => {
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-        
-            const dataPeople = await response.json();
-            console.log("Character details:", dataPeople);
-        } catch (error) {
-            console.error("Error fetching character details:", error);
-        }
-    };
     
     const handleOnErrorImg = (e) => {e.target.src = "https://starwars-visualguide.com/assets/img/placeholder.jpg"};
 
@@ -47,7 +33,7 @@ export const Characters = () => {
                                                 <p className="card-text">{character.name}.</p>
                                                 <div className="footerCharacter"> 
                                                     <Link to={`/characters/${character.uid}`}>
-                                                        <button className="btn btn-secondary" onClick={() => fetchCharacterDetails(character.url)}>
+                                                        <button className="btn btn-secondary" onClick={() => (character.url)}>
                                                             Get Details
                                                         </button>
                                                     </Link>

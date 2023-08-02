@@ -14,19 +14,6 @@ export const StarShips = () => {
         setStarShips(shipsLocalData.results);
         }, []);
 
-        const fetchShipDetails = async (url) => {
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-            
-                const dataShip = await response.json();
-                console.log("Character details:", dataShip);
-            } catch (error) {
-                console.error("Error fetching starship details:", error);
-            }
-        };
 
     const handleOnErrorImg = (e) => {e.target.src = "https://starwars-visualguide.com/assets/img/placeholder.jpg"};
 
@@ -46,7 +33,7 @@ export const StarShips = () => {
                                                 <p className="card-text">{starShip.name}.</p>
                                                 <div className="footerShips"> 
                                                     <Link to={`/starShips/${starShip.uid}`}>
-                                                        <button className="btn btn-secondary btn-favorite" onClick={() => fetchShipDetails(starShip.url)}>
+                                                        <button className="btn btn-secondary btn-favorite" onClick={() => (starShip.url)}>
                                                             Get Details
                                                         </button>
                                                     </Link>

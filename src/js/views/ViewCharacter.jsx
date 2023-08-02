@@ -9,6 +9,7 @@ export const ViewCharacter = () => {
     const fetchPersonData = async () => {
         const cachedPerson= JSON.parse(localStorage.getItem("peopleLocal"));
         console.log(cachedPerson);
+        
         if (cachedPerson && cachedPerson[params.peopleId]) {
             setPerson(cachedPerson[params.peopleId]);
         } else {
@@ -33,7 +34,7 @@ export const ViewCharacter = () => {
     
     return (
         <div className="d-flex justify-content-center" style={{background: 'gray' }}>
-            <div className=" mb-3 black text-white bordes" style={{ width: "60%" }}>
+            <div className=" mb-3 mt-3 black text-white bordes" style={{ width: "60%" }}>
                 <div className="row g-0">
                     <div className="col-md-4">
                         <img src={`https://starwars-visualguide.com/assets/img/characters/${params.peopleId}.jpg`} 
