@@ -1,36 +1,58 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 
 export const ViewCharacter = () => {
     const params = useParams();
-        console.log(params);
-    const  uid  = parseInt(params.peopleId - 1);
-        console.log(uid)
-    const viewString = JSON.parse(localStorage.getItem("dataPeople"));
-        console.log(viewString);
-    
-        if (!viewString || viewString.length === 0 || uid < 0 || uid >= viewString.length) {
-            return <div>No se encontró la persona</div>; // Manejo de caso si el planeta no existe
-        }    
-        const people = viewString[uid].properties;
+    const [person, setPerson] = useState({});
+
+    const fetchPersonData = async () => {
+        const cachedPerson= JSON.parse(localStorage.getItem("peopleLocal"));
+        console.log(cachedPerson);
+        if (cachedPerson && cachedPerson[params.peopleId]) {
+            setPerson(cachedPerson[params.peopleId]);
+        } else {
+            const response = await fetch(`https://www.swapi.tech/api/people/${params.peopleId}`);
+            if (response.ok) {
+                const data = await response.json();
+                const personData = data.result.properties;
+                setPerson(personData);
+                localStorage.setItem('peopleLocal', JSON.stringify({...cachedPerson, [params.peopleId]:personData}));
+            } else {
+                console.error("Error fetching data:", response.status, response.statusText);
+            }
+        }
+    };
+
+    useEffect(() => {
+            fetchPersonData();
+            }, [params.peopleId]);
+    if (!person.name) {
+        return <div>Loading...</div>;
+    };
     
     return (
-            <>
-                <div className="container" style={{ maxWidth: 550 }}>
-                    <div className="card my-1 mx-4 d-flex align-items-center justify-content-center">
-                        <h5 className="pt-3">Character: { uid + 1 }</h5>
-                        <div>
-                            <img src="https://tse3.mm.bing.net/th?id=OIP.zUdfLxrDwJVBcv9h-_mSEQAAAA&pid=Api" className='mb-4 me-4' style={{ width: 50, height: 50 }} alt="..." />
-                            <h1 className="card-text ms-3 d-inline">{people.name}</h1>
+        <div className="d-flex justify-content-center" style={{background: 'gray' }}>
+            <div className=" mb-3 black text-white bordes" style={{ width: "60%" }}>
+                <div className="row g-0">
+                    <div className="col-md-4">
+                        <img src={`https://starwars-visualguide.com/assets/img/characters/${params.peopleId}.jpg`} 
+                        onError={(e) => { e.target.src = "./assets/img/placeholder.jpg"; }} alt={person.name} />
+                    </div>
+                    <div className="col-md-8">
+                        <div className="card-body text-center mt-5">
+                            <h3 className="card-text">Name: {person.name}</h3>
+                            <p className="card-text">Height: {person.height} cm</p>
+                            <p className="card-text">Mass: {person.mass} Kg</p>
+                            <p className="card-text">Hair Color: {person.hair_color}</p>
+                            <p className="card-text">Skin Color: {person.skin_color}</p>
+                            <p className="card-text">Eye Color: {person.eye_color}</p>
+                            <p className="card-text">Birth Year: {person.birth_year}</p>
+                            <p className="card-text mb-5">Gender: {person.gender}</p>
                         </div>
-                            <p className="card-text">Nacimiento: {people.birth_year}</p>
-                            <p className="card-text">Color de ojos: {people.eye_color}</p>
-                            <p className="card-text">Genero: {people.gender}</p>
-                            <p className="card-text">Altura: {people.height}</p>
-                            <p className="card-text">Peso: {people.mass}</p>
                     </div>
                 </div>
-            </>
+            </div>
+        </div>
     );
-}
+};

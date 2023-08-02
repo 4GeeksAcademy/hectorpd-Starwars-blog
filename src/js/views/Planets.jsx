@@ -30,7 +30,7 @@ export const Planets = () => {
         }
     };
 
-    const handleOnErrorImg = (e) => {e.target.src = "https://starwars-visualguide.com/assets/img/placeholder.jpg"};
+    //const handleOnErrorImg = (e) => {e.target.src = "https://1.bp.blogspot.com/-KoRhKcCHwBE/Tndslf5GHYI/AAAAAAAAZk4/8Ihcjjwr7Wg/s1600/freebies2deals-star-wars-6-set.jpg"};
 
     return (
         <>
@@ -43,7 +43,12 @@ export const Planets = () => {
                                 <div className="col" key={uid}>
                                     <div className="p-3">
                                         <div className="card" >
-                                                <img src={`https://starwars-visualguide.com/assets/img/planetss/${uid+1}.jpg`} onError={handleOnErrorImg} />
+                                                <img src={`https://starwars-visualguide.com/assets/img/planets/${planet.uid}.jpg`}
+                    onError={(e) => {
+                    e.target.src = "https://1.bp.blogspot.com/-KoRhKcCHwBE/Tndslf5GHYI/AAAAAAAAZk4/8Ihcjjwr7Wg/s1600/freebies2deals-star-wars-6-set.jpg";
+                    }}
+                    alt="Not found"
+                    className="bordesimggrid" />
                                             <div className="card-body">
                                                 <p className="card-text">{planet.name}.</p>
                                                 <div className="footerPlanets">

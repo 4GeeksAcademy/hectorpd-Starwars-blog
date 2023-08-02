@@ -10,8 +10,6 @@ export const StarShips = () => {
     
     useEffect(() => {
     
-        // Obtiene los datos del localStorage y los establece en el estado 
-            
         const shipsLocalData = JSON.parse(localStorage.getItem("shipsLocal"));
         setStarShips(shipsLocalData.results);
         }, []);
@@ -48,7 +46,7 @@ export const StarShips = () => {
                                                 <p className="card-text">{starShip.name}.</p>
                                                 <div className="footerShips"> 
                                                     <Link to={`/starShips/${starShip.uid}`}>
-                                                        <button className="btn btn-secondary" onClick={() => fetchShipDetails(starShip.url)}>
+                                                        <button className="btn btn-secondary btn-favorite" onClick={() => fetchShipDetails(starShip.url)}>
                                                             Get Details
                                                         </button>
                                                     </Link>

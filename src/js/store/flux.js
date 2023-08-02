@@ -63,13 +63,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 				};
 			},
 
-			addFavorites: (name) => {
-				setStore({favorites: [...getStore().favorites, name]})
+			addFavorites: (nameCharacter) => {
+				const FavoritesList = getStore().favorites; // Obtenemos la lista actual de favoritos
+				const isDuplicate = FavoritesList.some((favorite) => favorite === nameCharacter); // Verificamos si el título ya está en la lista de favoritos
+				if (!isDuplicate) {  // Si no es un duplicado, creamos una nueva (copia) lista de favoritos más el nuevo título
+					const newFavorites = [...FavoritesList, nameCharacter];
+					setStore({ favorites: newFavorites });  // Actualizamos el estado del contexto con la nueva lista de favoritos
+					localStorage.setItem("favorites", JSON.stringify(newFavorites));  // Almacenamos la nueva lista de favoritos en el localStorage
+				}
 			},
-			removeFavorites: (id) => {
-				setStore({favorites: getStore().favorites.filter((item, i) => {
-					return  i != id;
-				})})
+			removeFavorites: (nameCharacter) => {
+				const FavoritesList = getStore().favorites;
+				const listRemove = FavoritesList.filter((favorite)=> favorite != nameCharacter);
+				setStore({favorites: listRemove});
+				localStorage.setItem("favorites", JSON.stringify(listRemove))
 			}
 		}
 	};

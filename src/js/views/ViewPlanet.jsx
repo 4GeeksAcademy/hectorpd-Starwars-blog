@@ -1,36 +1,62 @@
-import React from "react";
+import React, { useEffect, useState }from "react";
 import { useParams } from "react-router-dom";
 
 
 export const ViewPlanet = () => {
-    const params = useParams();
-        console.log(params);
-    const uid = parseInt(params.planetId) - 1;
-        console.log(uid)
-    const viewString = JSON.parse(localStorage.getItem("dataWorlds"));
-        console.log(viewString);
 
-    if (!viewString || viewString.length === 0 || uid < 0 || uid >= viewString.length) {
-        return <div>No se encontró el planeta</div>; // Manejo de caso si el planeta no existe
-    }    
-    const planet = viewString[uid].properties;
+    const params = useParams();
+    const [planet, setPlanet] = useState({});
+
+    const fetchPlanetData = async () => {
+        const cachedPlanet= JSON.parse(localStorage.getItem("planetsLocal"));
+        console.log(cachedPlanet);
+        if (cachedPlanet && cachedPlanet[params.planetId]) {
+            setPlanet(cachedPlanet[params.planetId]);
+        } else {
+            const response = await fetch(`https://www.swapi.tech/api/planets/${params.planetId}`);
+            if (response.ok) {
+                const data = await response.json();
+                const planetData = data.results.properties;
+                setPlanet(planetData);
+                localStorage.setItem('planetsLocal', JSON.stringify({...cachedPlanet, [params.planetId]:planetData}));
+            } else {
+                console.error("Error fetching data:", response.status, response.statusText);
+            }
+        }
+    };
+
+    useEffect(() => {
+            fetchPlanetData();
+            }, [params.planetId]);
+    if (!planet.name) {
+        return <div>Loading...</div>;
+    };
     
     return (
-            <>
-                <div className="container" style={{ maxWidth: 550 }}>
-                    <div className="card my-1 mx-4 d-flex align-items-center justify-content-center">
-                        <h5 className="pt-3">Planet: { uid + 1 }</h5>
-                        <div>
-                            <img src="https://tse3.mm.bing.net/th?id=OIP.zUdfLxrDwJVBcv9h-_mSEQAAAA&pid=Api" className='mb-4 me-4' style={{ width: 50, height: 50 }} alt="..." />
-                            <h1 className="card-text ms-3 d-inline">{planet.name}</h1>
-                        </div>
+        <div className="d-flex justify-content-center" style={{background: 'gray' }}>
+            <div className=" mb-3 black text-white bordes" style={{ width: "43%" }}>
+                <div className="row g-0">
+                    <div className="col-md-4">
+                        <img src={`https://starwars-visualguide.com/assets/img/planets/${params.planetId}.jpg`} 
+                        onError={(e) => {
+                            e.target.src = "https://1.bp.blogspot.com/-KoRhKcCHwBE/Tndslf5GHYI/AAAAAAAAZk4/8Ihcjjwr7Wg/s1600/freebies2deals-star-wars-6-set.jpg";
+                        }} alt={planet.name} style={{ width: "350px" }} />
+                    </div>
+                    <div className="col-md-8">
+                        <div className="card-body text-center ms-5 ps-5 mt-3">
+                            <h3 className="card-text">Name: {planet.name}</h3>
+                            <p className="card-text">Diameter: {planet.diameter} Km</p>
+                            <p className="card-text">Rotation period: {planet.rotation_period} Hours</p>
+                            <p className="card-text">Orbital period: {planet.orbital_period} Days</p>
+                            <p className="card-text">Gravity: {planet.gravity} gal</p>
+                            <p className="card-text">Population: {planet.population} hab/m²</p>
                             <p className="card-text">Climate: {planet.climate}</p>
-                            <p className="card-text">Created: {planet.created}</p>
-                            <p className="card-text">Diameter: {planet.diameter}</p>
-                            <p className="card-text">Gravity: {planet.gravity}</p>
-                            <p className="card-text">Population: {planet.population}</p>
+                            <p className="card-text">Terrain: {planet.terrain}</p>
+                            <p className="card-text mb-5">Created: {planet.created}</p>
+                        </div>
                     </div>
                 </div>
-            </>
+            </div>
+        </div>
     );
 }

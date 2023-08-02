@@ -1,3 +1,17 @@
 /* 
     General Styles
 */
+.footerCharacter {
+    display: flex;
+    gap: 2px;
+}
+
+.footerShips {
+    display: flex;
+    gap: 2px;
+}
+
+.footerPlanets {
+    display: flex;
+    gap: 2px;
+}
